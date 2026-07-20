@@ -334,36 +334,59 @@
 
     <!-- ===== PROFILE SECTION ===== -->
     <section id="profileSection" class="page-section">
-      <div class="section-header">
-        <div>
-          <h2><i class="fas fa-user-circle"></i> Profile Settings</h2>
-          <p>Manage your personal information</p>
-        </div>
+  <div class="section-header">
+    <div>
+      <h2><i class="fas fa-user-circle"></i> Profile Settings</h2>
+      <p>Manage your personal information</p>
+    </div>
+  </div>
+  <div class="profile-card">
+    <!-- PROFILE AVATAR WITH IMAGE -->
+    <div class="profile-avatar">
+      <!-- CHANGE THE SRC TO YOUR IMAGE PATH -->
+      <img src="images/pp.jpeg" alt="Todd R. Peterson" />
+      <div class="avatar-edit" onclick="document.getElementById('fileInput').click()">
+        <!-- <i class="fas fa-camera"></i> -->
       </div>
-      <div class="profile-card">
-        <div class="profile-avatar">
-          <i class="fas fa-user-circle"></i>
+      <!-- Hidden file input for uploading new picture -->
+      <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="uploadProfilePicture(event)" />
+    </div>
+    
+    <div class="profile-info">
+      <h3>Todd R. Peterson</h3>
+      <p><i class="fas fa-envelope"></i> toddpeterson01@mail.com</p>
+      <p><i class="fas fa-phone"></i> +1 (470) 228-6936</p>
+      <p><i class="fas fa-map-marker-alt"></i> Nashville, TN</p>
+    </div>
+    
+    <div class="profile-stats">
+      <div class="profile-stat">
+        <div class="stat-icon-wrapper">
+          <!-- CALENDAR ICON IMAGE -->
+          <!-- <img src="images/calendar.png" alt="Years" class="stat-icon-img" /> -->
         </div>
-        <div class="profile-info">
-          <h3>Todd R. Peterson</h3>
-          <p><i class="fas fa-envelope"></i> toddpeterson01@mail.com</p>
-          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-          <p><i class="fas fa-map-marker-alt"></i> Nashville, TN</p>
-        </div>
-        <div class="profile-stats">
-          <div class="profile-stat"> 
-            
-            <span class="stat-number">8</span>
-            <span class="stat-label">Years</span>
-          </div>
-          <div class="profile-stat">
-            <span class="stat-number">4.8</span>
-            <span class="stat-label">⭐ Rating</span>
-          </div>
-        </div>
+        <span class="stat-number">8</span>
+        <span class="stat-label">Years</span>
       </div>
-    </section>
-  </div> 
+      <div class="profile-stat">
+        <div class="stat-icon-wrapper">
+          <!-- STAR ICON IMAGE -->
+          <!-- <img src="images/star.png" alt="Rating" class="stat-icon-img" /> -->
+        </div>
+        <span class="stat-number">4.8</span>
+        <span class="stat-label">⭐ Rating</span>
+      </div>
+      <div class="profile-stat">
+        <div class="stat-icon-wrapper">
+          <!-- TRANSACTIONS ICON IMAGE -->
+          <!-- <img src="images/" alt="Transactions" class="stat-icon-img" /> -->
+        </div>
+        <span class="stat-number" id="totalTransactions">2000</span>
+        <span class="stat-label">Transactions</span>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">

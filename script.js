@@ -842,3 +842,107 @@ console.log('📝 Use username: admin | password: password123');
 console.log('💰 Features: Deposit, Withdraw, Transfer');
 console.log('📊 Transaction History: 2024 - 2026');
 console.log('📈 Total Transactions: ' + transactions.length);
+
+
+
+
+// ============================================
+// PROFILE PICTURE UPLOAD
+// ============================================
+
+function uploadProfilePicture(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  // Check if it's an image
+  if (!file.type.startsWith('image/')) {
+    alert('Please select an image file.');
+    return;
+  }
+  
+  // Check file size (max 5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Image size should be less than 5MB.');
+    return;
+  }
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    // Update the profile picture
+    const img = document.querySelector('.profile-avatar img');
+    img.src = e.target.result;
+    
+    // Save to localStorage (optional - for persistence)
+    try {
+      localStorage.setItem('profilePicture', e.target.result);
+    } catch (error) {
+      console.log('Could not save to localStorage');
+    }
+    
+    // Show success message
+    showNotification('Profile picture updated successfully! ✅');
+  };
+  reader.readAsDataURL(file);
+}
+
+// Load saved profile picture (optional - for persistence)
+function loadSavedProfilePicture() {
+  try {
+    const savedImage = localStorage.getItem('profilePicture');
+    if (savedImage) {
+      const img = document.querySelector('.profile-avatar img');
+      img.src = savedImage;
+    }
+  } catch (error) {
+    console.log('Could not load saved image');
+  }
+}
+
+// Simple notification function
+function showNotification(message) {
+  const existing = document.querySelector('.profile-notification');
+  if (existing) existing.remove();
+  
+  const notification = document.createElement('div');
+  notification.className = 'profile-notification';
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #2e7d32;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    z-index: 9999;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    animation: slideInRight 0.3s ease;
+  `;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    notification.style.transition = 'opacity 0.3s';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Add animation for notification
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+// Call this in your initialization
+// loadSavedProfilePicture();
