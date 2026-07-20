@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>BOA - Premium Online Banking</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ============================================
+     LOGIN PAGE
+     ============================================ -->
+<div id="loginPage" class="login-page">
+  <div class="login-wrapper">
+    <div class="login-left">
+      <div class="login-brand">
+        <div class="brand-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h1>BOA</h1>
+        <p>Premium Digital Banking</p>
+      </div>
+      <div class="login-features">
+        <div class="feature-item">
+          <i class="fas fa-lock"></i>
+          <span>Military-grade encryption</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-shield-alt"></i>
+          <span>FDIC insured up to $250k</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-headset"></i>
+          <span>24/7 priority support</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-mobile-alt"></i>
+          <span>Mobile banking app</span>
+        </div>
+      </div>
+      <div class="login-testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Best banking experience I've ever had. Secure and seamless."</p>
+        <span>- Sarah Johnson</span>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-card">
+        <div class="login-card-header">
+          <h2>Welcome Back</h2>
+          <p class="login-subtitle">Sign in to your premium account</p>
+        </div>
+        
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="input-group">
+            <label><i class="fas fa-user"></i> Username</label>
+            <input type="text" id="username" placeholder="Enter your username" required />
+          </div>
+
+          <div class="input-group">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required />
+          </div>
+
+          <div class="login-options">
+            <label class="checkbox-container">
+              <input type="checkbox" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn-login">
+            <span>Sign In</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+
+          <div id="errorMessage" class="error-message"></div>
+        </form>
+
+        <div class="demo-credentials">
+          <p><i class="fas fa-info-circle"></i> Demo: <strong>admin</strong> / <strong>password123</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DASHBOARD PAGE
+     ============================================ -->
+<div id="dashboardPage" style="display: none;">
+  
+  <!-- ===== TOP NAVIGATION ===== -->
+  <nav class="top-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <i class="fas fa-shield-alt"></i>
+        <span>BOA</span>
+        <span class="brand-badge">PREMIUM</span>
+      </div>
+      
+      <div class="nav-links" id="navLinks">
+        <a href="#" class="nav-link active" data-page="dashboard">
+          <i class="fas fa-th-large"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-link" data-page="transactions">
+          <i class="fas fa-list-ul"></i>
+          <span>Transactions</span>
+        </a>
+        <a href="#" class="nav-link" data-page="transfer">
+          <i class="fas fa-exchange-alt"></i>
+          <span>Transfer</span>
+        </a>
+        <a href="#" class="nav-link" data-page="profile">
+          <i class="fas fa-user-circle"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+      
+      <div class="nav-right">
+        <div class="notification-bell">
+          <i class="fas fa-bell"></i>
+          <span class="badge">3</span>
+        </div>
+        <button class="btn-logout-nav" onclick="handleLogout()" title="Logout">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+      
+      <div class="hamburger" onclick="toggleMobileNav()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+    
+    <!-- ===== DASHBOARD SECTION ===== -->
+    <section id="dashboardSection" class="page-section active-section">
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h2>Welcome back, Trey! 👋</h2>
+          <p>Here's your financial overview for today</p>
+        </div>
+        <div class="welcome-actions">
+          <button class="btn-download" onclick="downloadStatement()">
+            <i class="fas fa-download"></i>
+            <span>Statement</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, rgba(46, 125, 50, 0.2), rgba(46, 125, 50, 0.05)); color: #4caf50;">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Balance</span>
+            <span class="stat-value" id="balanceDisplay">$12,847.63</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, rgba(21, 101, 192, 0.2), rgba(21, 101, 192, 0.05)); color: #42a5f5;">
+            <i class="fas fa-arrow-up"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Deposits</span>
+            <span class="stat-value" id="totalDeposits">$0.00</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, rgba(198, 40, 40, 0.2), rgba(198, 40, 40, 0.05)); color: #ef5350;">
+            <i class="fas fa-arrow-down"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Withdrawals</span>
+            <span class="stat-value" id="totalWithdrawals">$0.00</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.05)); color: #ffd54f;">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Transfers</span>
+            <span class="stat-value" id="totalTransfers">$0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Balance & Actions -->
+      <div class="dashboard-grid">
+        <div class="main-balance-card">
+          <div class="balance-header">
+            <div>
+              <span class="balance-label">Available Balance</span>
+              <div class="balance-account">Account #•••• 4821</div>
+            </div>
+            <button class="btn-toggle" onclick="toggleHide()">
+              <i class="fas" id="hideIcon">fa-eye</i>
+            </button>
+          </div>
+          <div class="balance-amount" id="balanceDisplayMain">$12,847.63</div>
+          
+          <div class="action-buttons">
+            <button class="action-btn btn-deposit" onclick="openModal('deposit')">
+              <i class="fas fa-plus-circle"></i>
+              <span>Deposit</span>
+            </button>
+            <button class="action-btn btn-withdraw" onclick="openModal('withdraw')">
+              <i class="fas fa-minus-circle"></i>
+              <span>Withdraw</span>
+            </button>
+            <button class="action-btn btn-transfer" onclick="openModal('transfer')">
+              <i class="fas fa-exchange-alt"></i>
+              <span>Transfer</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions-card">
+          <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+          <div class="quick-actions-grid">
+            <div class="quick-action" onclick="openModal('transfer')">
+              <div class="quick-action-icon">
+                <i class="fas fa-paper-plane"></i>
+              </div>
+              <span>Send Money</span>
+            </div>
+            <div class="quick-action" onclick="openModal('deposit')">
+              <div class="quick-action-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+              </div>
+              <span>Add Funds</span>
+            </div>
+            <div class="quick-action" onclick="alert('Opening bill pay...')">
+              <div class="quick-action-icon">
+                <i class="fas fa-file-invoice"></i>
+              </div>
+              <span>Pay Bills</span>
+            </div>
+            <div class="quick-action" onclick="alert('Opening investments...')">
+              <div class="quick-action-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <span>Invest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Transactions -->
+      <div class="transactions-section">
+        <div class="section-header">
+          <h3><i class="fas fa-clock"></i> Recent Transactions</h3>
+          <a href="#" onclick="switchPage('transactions')" class="view-all">
+            View All <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="transactions-list" id="transactionList">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRANSACTIONS SECTION ===== -->
+    <section id="transactionsSection" class="page-section">
+      <div class="section-header">
+        <div>
+          <h2><i class="fas fa-list-ul"></i> Transaction History</h2>
+          <p>Complete record of all your transactions</p>
+        </div>
+        <div class="filter-options">
+          <select id="filterType" onchange="filterTransactions()">
+            <option value="all">All Types</option>
+            <option value="deposit">Deposits</option>
+            <option value="withdraw">Withdrawals</option>
+            <option value="transfer">Transfers</option>
+          </select>
+          <select id="filterYear" onchange="filterTransactions()">
+            <option value="all">All Years</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+          </select>
+        </div>
+      </div>
+      <div class="transactions-full-list" id="fullTransactionList">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+
+    <!-- ===== TRANSFER SECTION ===== -->
+    <section id="transferSection" class="page-section">
+      <div class="section-header">
+        <div>
+          <h2><i class="fas fa-exchange-alt"></i> Transfer Money</h2>
+          <p>Send money instantly to any account</p>
+        </div>
+      </div>
+      <div class="transfer-card">
+        <form onsubmit="handleTransferForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Recipient</label>
+              <input type="text" id="transferRecipientForm" placeholder="Enter recipient name or account" required />
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-dollar-sign"></i> Amount</label>
+              <input type="number" id="transferAmountForm" placeholder="0.00" min="0.01" step="0.01" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-comment"></i> Description (Optional)</label>
+            <input type="text" id="transferDescForm" placeholder="What's this for?" />
+          </div>
+          <button type="submit" class="btn-submit-form">
+            <i class="fas fa-paper-plane"></i>
+            Send Money
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== PROFILE SECTION ===== -->
+    <section id="profileSection" class="page-section">
+      <div class="section-header">
+        <div>
+          <h2><i class="fas fa-user-circle"></i> Profile Settings</h2>
+          <p>Manage your personal information</p>
+        </div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="profile-info">
+          <h3>Todd R. Peterson</h3>
+          <p><i class="fas fa-envelope"></i> toddpeterson01@mail.com</p>
+          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          <p><i class="fas fa-map-marker-alt"></i> Nashville, TN</p>
+        </div>
+        <div class="profile-stats">
+          <div class="profile-stat"> 
+            
+            <span class="stat-number">8</span>
+            <span class="stat-label">Years</span>
+          </div>
+          <div class="profile-stat">
+            <span class="stat-number">4.8</span>
+            <span class="stat-label">⭐ Rating</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div> 
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2026 BOA. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div id="modalOverlay" class="modal-overlay" style="display: none;">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">Transaction</h2>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="transactionForm" onsubmit="handleTransaction(event)">
+        <div id="modalFields"></div>
+        <button type="submit" class="btn-submit" id="modalSubmitBtn">Confirm</button>
+        <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <div id="modalMessage" class="modal-message"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
