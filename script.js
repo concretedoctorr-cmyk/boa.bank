@@ -1,8 +1,8 @@
 // ============================================
 // CREDENTIALS
 // ============================================
-const VALID_USERNAME = 'trey';
-const VALID_PASSWORD = 'lovetrey';
+const VALID_USERNAME = 'Trey';
+const VALID_PASSWORD = 'Lovetrey';
 
 // ============================================
 // STATE
