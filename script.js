@@ -945,4 +945,179 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Call this in your initialization
-// loadSavedProfilePicture();
+// loadSavedProfilePicture();\
+
+
+
+
+// ============================================
+// CAPTCHA FUNCTIONS
+// ============================================
+
+let captchaAnswer = 0;
+let captchaAttempts = 0;
+const MAX_CAPTCHA_ATTEMPTS = 3;
+
+function generateCaptcha() {
+  // Generate random numbers between 1-20 for addition
+  const num1 = Math.floor(Math.random() * 20) + 1;
+  const num2 = Math.floor(Math.random() * 20) + 1;
+  
+  // Randomly choose operation (addition, subtraction, or multiplication)
+  const operations = ['+', '-', '×'];
+  const operation = operations[Math.floor(Math.random() * operations.length)];
+  
+  let question = '';
+  let answer = 0;
+  
+  switch(operation) {
+    case '+':
+      question = `What is ${num1} + ${num2}?`;
+      answer = num1 + num2;
+      break;
+    case '-':
+      // Ensure positive answer (num1 > num2)
+      const n1 = Math.max(num1, num2);
+      const n2 = Math.min(num1, num2);
+      question = `What is ${n1} - ${n2}?`;
+      answer = n1 - n2;
+      break;
+    case '×':
+      // Keep multiplication simple (1-10)
+      const m1 = Math.floor(Math.random() * 10) + 1;
+      const m2 = Math.floor(Math.random() * 10) + 1;
+      question = `What is ${m1} × ${m2}?`;
+      answer = m1 * m2;
+      break;
+  }
+  
+  document.getElementById('captchaQuestion').textContent = question;
+  captchaAnswer = answer;
+  
+  // Reset input and errors
+  const input = document.getElementById('captchaInput');
+  input.value = '';
+  input.className = '';
+  document.getElementById('captchaError').textContent = '';
+  
+  // Reset attempts on new CAPTCHA
+  captchaAttempts = 0;
+}
+
+function validateCaptcha() {
+  const input = document.getElementById('captchaInput');
+  const errorEl = document.getElementById('captchaError');
+  const userAnswer = parseInt(input.value.trim());
+  
+  // Check if input is empty
+  if (input.value.trim() === '') {
+    errorEl.textContent = '⚠️ Please enter the answer';
+    input.className = 'captcha-error';
+    return false;
+  }
+  
+  // Check if input is a valid number
+  if (isNaN(userAnswer)) {
+    errorEl.textContent = '⚠️ Please enter a valid number';
+    input.className = 'captcha-error';
+    return false;
+  }
+  
+  // Check if answer is correct
+  if (userAnswer === captchaAnswer) {
+    input.className = 'captcha-success';
+    errorEl.textContent = '✅ Verified!';
+    errorEl.style.color = '#4caf50';
+    return true;
+  } else {
+    captchaAttempts++;
+    const remaining = MAX_CAPTCHA_ATTEMPTS - captchaAttempts;
+    
+    if (captchaAttempts >= MAX_CAPTCHA_ATTEMPTS) {
+      errorEl.textContent = '🔒 Too many attempts. Please refresh CAPTCHA.';
+      errorEl.style.color = '#ff4444';
+      input.className = 'captcha-error';
+      // Auto-refresh CAPTCHA after 3 seconds
+      setTimeout(() => {
+        generateCaptcha();
+      }, 3000);
+    } else {
+      errorEl.textContent = `❌ Incorrect! ${remaining} attempt(s) remaining. Try again.`;
+      errorEl.style.color = '#ff7b7b';
+      input.className = 'captcha-error';
+    }
+    return false;
+  }
+}
+
+// Update the handleLogin function to include CAPTCHA validation
+// Replace your existing handleLogin function with this updated version
+function handleLogin(event) {
+  event.preventDefault();
+
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorEl = document.getElementById('errorMessage');
+
+  // First, validate CAPTCHA
+  if (!validateCaptcha()) {
+    // CAPTCHA error is already displayed
+    return;
+  }
+
+  if (loginAttempts >= MAX_ATTEMPTS) {
+    errorEl.textContent = '🔒 Account locked. Please contact support.';
+    errorEl.style.color = '#ff4444';
+    return;
+  }
+
+  if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+    errorEl.textContent = '';
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('dashboardPage').style.display = 'block';
+    
+    const now = new Date();
+    const timeString = now.toLocaleString('en-US', { 
+      weekday: 'short', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit', 
+      minute: '2-digit'
+    });
+    document.getElementById('lastLogin').textContent = timeString;
+
+    loginAttempts = 0;
+    updateBalanceDisplay();
+    renderTransactions();
+    renderFullTransactions();
+    updateStats();
+  } else {
+    loginAttempts++;
+    const remaining = MAX_ATTEMPTS - loginAttempts;
+    errorEl.textContent = `❌ Invalid credentials. ${remaining} attempt(s) remaining.`;
+    errorEl.style.color = '#ff7b7b';
+    document.getElementById('password').value = '';
+
+    if (loginAttempts >= MAX_ATTEMPTS) {
+      errorEl.textContent = '🔒 Account locked. Please contact support.';
+      errorEl.style.color = '#ff4444';
+      document.getElementById('username').disabled = true;
+      document.getElementById('password').disabled = true;
+    }
+  }
+}
+
+// Add keyboard support - press Enter to submit
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    const loginPage = document.getElementById('loginPage');
+    if (loginPage.style.display !== 'none') {
+      // Check if we're on the login page
+      handleLogin(event);
+    }
+  }
+});
+
+// Generate CAPTCHA when page loads
+// Add this to your initialization section
+// generateCaptcha();

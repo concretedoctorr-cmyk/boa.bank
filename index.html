@@ -13,6 +13,9 @@
 <!-- ============================================
      LOGIN PAGE
      ============================================ -->
+<!-- ============================================
+     LOGIN PAGE
+     ============================================ -->
 <div id="loginPage" class="login-page">
   <div class="login-wrapper">
     <div class="login-left">
@@ -63,6 +66,21 @@
           <div class="input-group">
             <label><i class="fas fa-lock"></i> Password</label>
             <input type="password" id="password" placeholder="Enter your password" required />
+          </div>
+
+          <!-- ===== CAPTCHA SECTION ===== -->
+          <div class="captcha-container">
+            <label><i class="fas fa-shield-alt"></i> Confirm You're Human</label>
+            <div class="captcha-box">
+              <div class="captcha-display">
+                <span id="captchaQuestion">What is 5 + 3?</span>
+                <button type="button" class="captcha-refresh" onclick="generateCaptcha()" title="Refresh CAPTCHA">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
+              <input type="text" id="captchaInput" placeholder="Enter your answer" required />
+            </div>
+            <div id="captchaError" class="captcha-error"></div>
           </div>
 
           <div class="login-options">
