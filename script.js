@@ -1,7 +1,7 @@
 // ============================================
 // CREDENTIALS
 // ============================================
-const VALID_USERNAME = 'Trey';
+const VALID_USERNAME = 'Trrey';
 const VALID_PASSWORD = 'Lovetrey';
 
 // ============================================
@@ -838,7 +838,7 @@ renderFullTransactions();
 updateStats();
 
 console.log('🔐 SecureBank Demo');
-console.log('📝 Use username: admin | password: password123');
+// console.log('📝 Use username: admin | password: password123');
 console.log('💰 Features: Deposit, Withdraw, Transfer');
 console.log('📊 Transaction History: 2024 - 2026');
 console.log('📈 Total Transactions: ' + transactions.length);
